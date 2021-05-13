@@ -1,7 +1,9 @@
 import React from 'react';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { Home } from './pages/Home/';
+import { Dashboard } from './pages/Dashboard/';
 
 const theme = createMuiTheme({
   palette: {
@@ -17,9 +19,14 @@ const theme = createMuiTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Home />
-    </ThemeProvider>
+    <Router>
+      <ThemeProvider theme={theme}>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/dashboard" component={Dashboard} />
+        </Switch>
+      </ThemeProvider>
+    </Router>
   );
 }
 
