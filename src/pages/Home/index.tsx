@@ -63,7 +63,6 @@ const useStyle = makeStyles((theme: Theme) =>
 export const Home = () => {
   const classes = useStyle();
   const [captcha, setCaptcha] = useState();
-  const [participants, setParticipants] = useState<Participants>([]);
   const [participantsOptions, setParticipantsOptions] = useState<Options[]>([]);
   const [citiesOptions, setCitiesOptions] = useState<Options[]>([]);
   const [steps, setSteps] = useState<number>(1);
