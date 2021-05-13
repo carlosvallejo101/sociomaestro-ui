@@ -5,6 +5,15 @@ import TextField from '@material-ui/core/TextField';
 type InputProps = {
   label: string;
   type: string;
+  name: string;
+  onChange: (e: EventType) => void;
+};
+
+export type EventType = {
+  target: {
+    name: string;
+    value: string | number | null | undefined;
+  };
 };
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -15,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const Input = ({ label, type }: InputProps) => {
+export const Input = ({ label, type, name, onChange }: InputProps) => {
   const classes = useStyles();
   return (
     <TextField
@@ -23,6 +32,8 @@ export const Input = ({ label, type }: InputProps) => {
       label={label}
       type={type}
       className={classes.root}
+      onChange={onChange}
+      name={name}
     />
   );
 };

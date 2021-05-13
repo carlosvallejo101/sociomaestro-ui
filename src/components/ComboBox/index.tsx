@@ -3,14 +3,18 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
-type ComboBoxProps = {
+import { EventType } from '../Input';
+
+export type ComboBoxProps = {
   options: Options[];
   placeholder: string;
+  name: string;
+  onChange: (e: EventType) => void;
 };
 
-type Options = {
-  title: string;
-  year: number;
+export type Options = {
+  value: string;
+  id: number;
 };
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -21,17 +25,25 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const ComboBox = ({ options, placeholder }: ComboBoxProps) => {
+export const ComboBox = ({
+  options,
+  placeholder,
+  name,
+  onChange,
+}: ComboBoxProps) => {
   const classes = useStyles();
   return (
     <Autocomplete
       className={classes.root}
       options={options}
-      getOptionLabel={(option) => option.title}
+      getOptionLabel={(option) => option.value}
       style={{ width: 300 }}
       renderInput={(params) => (
         <TextField {...params} label={placeholder} variant="outlined" />
       )}
+      onChange={(e, newValue) =>
+        onChange({ target: { name, value: newValue?.id } })
+      }
     />
   );
 };
