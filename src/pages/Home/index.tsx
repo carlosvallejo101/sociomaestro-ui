@@ -43,6 +43,12 @@ const useStyle = makeStyles((theme: Theme) =>
       justifyContent: 'center',
       alignContent: 'center',
     },
+    cardWarning: {
+      color: '#d5bf00',
+      margin: '13px 0',
+      fontSize: '14px',
+      textAlign: 'center',
+    },
     cardSubtitle: {
       color: theme.palette.primary.light,
       fontSize: '15px',
@@ -65,7 +71,7 @@ export const Home = () => {
   const [captcha, setCaptcha] = useState();
   const [participantsOptions, setParticipantsOptions] = useState<Options[]>([]);
   const [citiesOptions, setCitiesOptions] = useState<Options[]>([]);
-  const [steps, setSteps] = useState<number>(2);
+  const [steps, setSteps] = useState<number>(1);
   const [isValidated, setIsValidated] = useState(false);
   const [state, setState] = useState<Builder>({
     participantId: null,
@@ -173,8 +179,6 @@ export const Home = () => {
           });
         });
       }
-    } else {
-      console.log('no se guarda nada');
     }
   };
 
@@ -193,6 +197,9 @@ export const Home = () => {
           <div className={classes.cardBody}>
             <p className={classes.cardSubtitle}>
               Por favor selecciona tu establecimiento y resuelve el Catpcha
+            </p>
+            <p className={classes.cardWarning}>
+              Recuerda que en Socio Maestro solo participa Albañil
             </p>
             <ComboBox
               options={participantsOptions}
