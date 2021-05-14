@@ -10,9 +10,15 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+// @ts-ignore
+import ReactExport from 'react-export-excel';
 
 import { Builder, Builders } from '../Home/builder.types';
 import { config } from '../../config';
+
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 interface Column {
   id:
@@ -117,8 +123,10 @@ export const Dashboard = () => {
           phoneNumber: builder.phoneNumber,
           email: builder.email,
         };
-        rows.push(newData);
-        setRows([...rows]);
+        return setRows((prevState) => {
+          prevState.push(newData);
+          return [...prevState];
+        });
       });
     })();
   }, []);
@@ -126,9 +134,26 @@ export const Dashboard = () => {
   return (
     <div className={classes.wrapper}>
       <h2>Dashboard</h2>
-      <Button variant="contained" color="primary" onClick={() => {}}>
-        Descargar
-      </Button>
+      {rows.length > 0 && (
+        <ExcelFile
+          element={
+            <Button variant="contained" color="primary" onClick={() => {}}>
+              Descargar
+            </Button>
+          }
+          filename={'Socio-Maestro'}
+        >
+          <ExcelSheet data={rows} name="Socio Maestro">
+            <ExcelColumn label="Participante" value="participant" />
+            <ExcelColumn label="Ciudad" value="citie" />
+            <ExcelColumn label="Cédula" value="identification" />
+            <ExcelColumn label="Nombres" value="names" />
+            <ExcelColumn label="Celular" value="phoneNumber" />
+            <ExcelColumn label="Correo" value="email" />
+          </ExcelSheet>
+        </ExcelFile>
+      )}
+
       <Paper className={classes.root}>
         <TableContainer className={classes.container}>
           <Table stickyHeader aria-label="sticky table">
