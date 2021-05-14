@@ -6,4 +6,9 @@ export type Builder = {
   phoneNumber: string;
   email: string;
   citieId: number | null;
+  participantName?: string;
+  participantLastNames?: string;
+  city?: string;
 };
+
+export type Builders = Builder[];
