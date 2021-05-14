@@ -110,7 +110,7 @@ export const Dashboard = () => {
       builders.map((builder: Builder, index) => {
         const newData: Data = {
           id: index,
-          participant: `${builder.participantName} ${builder.participantLastNames}`,
+          participant: `${builder.participantName} ${builder.participantLastName}`,
           citie: `${builder.city}`,
           identification: `${builder.identification}`,
           names: `${builder.names} ${builder.lastNames}`,

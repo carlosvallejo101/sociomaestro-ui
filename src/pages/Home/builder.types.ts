@@ -7,7 +7,7 @@ export type Builder = {
   email: string;
   citieId: number | null;
   participantName?: string;
-  participantLastNames?: string;
+  participantLastName?: string;
   city?: string;
 };
 
