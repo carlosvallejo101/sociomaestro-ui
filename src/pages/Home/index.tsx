@@ -7,6 +7,9 @@ import Swal from 'sweetalert2';
 
 import { config } from '../../config';
 import Logo from '../../assets/images/logo.png';
+import AlbanilSVG from '../../assets/svgs/ALBANIL_LADRILLO.svg';
+import FondoSVG from '../../assets/svgs/FONDO.svg';
+import LogoAdelca from '../../assets/svgs/LOGO_ADELCA.svg';
 import { ComboBox } from '../../components/ComboBox';
 import { Input, EventType } from '../../components/Input';
 import { Participant, Participants } from './participant.types';
@@ -17,23 +20,51 @@ import { Options } from '../../components/ComboBox';
 const useStyle = makeStyles((theme: Theme) =>
   createStyles({
     home: {
-      background: theme.palette.background.default,
-      height: '100vh',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
+      backgroundImage: `url(${FondoSVG})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      [theme.breakpoints.up('xs')]: {
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+      },
+    },
+    hero: {
+      [theme.breakpoints.up('xs')]: {
+        position: 'absolute',
+        height: '70%',
+        right: '0',
+        top: '0',
+      },
+      [theme.breakpoints.up('sm')]: {
+        height: '100%',
+      },
+      [theme.breakpoints.up('md')]: {
+        right: '0px',
+      },
+    },
+    footer: {
+      position: 'absolute',
+      bottom: '0',
+      [theme.breakpoints.up('xs')]: {
+        width: '200px',
+      },
+      [theme.breakpoints.up('sm')]: {
+        width: '300px',
+        left: '10px',
+      },
     },
     card: {
       background: 'white',
       borderRadius: '8px',
       width: '300px',
-      position: 'relative',
-      padding: '60px 20px 20px 20px',
+      padding: '20px 20px 20px 20px',
     },
     cardImage: {
       width: '100%',
-      position: 'absolute',
-      top: '-180px',
       right: '50%',
       left: '0',
     },
@@ -188,7 +219,8 @@ export const Home = () => {
 
   return (
     <div className={classes.home}>
-      <div className={classes.card}>
+      <img src={AlbanilSVG} alt="logo-apuntate" className={classes.hero} />
+      <div className={classes.card} style={{ zIndex: 999 }}>
         <img src={Logo} alt={Logo} className={classes.cardImage} />
         <h3>
           Registra a tu Socio Maestro de <span>Adelca</span>
@@ -274,6 +306,7 @@ export const Home = () => {
           </div>
         )}
       </div>
+      <img src={LogoAdelca} alt="logo-adelca" className={classes.footer} />
     </div>
   );
 };
