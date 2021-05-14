@@ -231,7 +231,7 @@ export const Home = () => {
               Por favor selecciona tu establecimiento y resuelve el Catpcha
             </p>
             <p className={classes.cardWarning}>
-              Recuerda que en Socio Maestro solo participa Albañil
+              Recuerda que en Socio Maestro solo participan Albañiles
             </p>
             <ComboBox
               options={participantsOptions}
