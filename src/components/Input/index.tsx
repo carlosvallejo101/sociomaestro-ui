@@ -7,6 +7,7 @@ type InputProps = {
   type: string;
   name: string;
   onChange: (e: EventType) => void;
+  maxLength?: number;
 };
 
 export type EventType = {
@@ -24,7 +25,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export const Input = ({ label, type, name, onChange }: InputProps) => {
+export const Input = ({
+  label,
+  type,
+  name,
+  onChange,
+  maxLength = 1000,
+}: InputProps) => {
   const classes = useStyles();
   return (
     <TextField
@@ -34,6 +41,7 @@ export const Input = ({ label, type, name, onChange }: InputProps) => {
       className={classes.root}
       onChange={onChange}
       name={name}
+      inputProps={{ maxLength }}
     />
   );
 };

@@ -65,7 +65,8 @@ export const Home = () => {
   const [captcha, setCaptcha] = useState();
   const [participantsOptions, setParticipantsOptions] = useState<Options[]>([]);
   const [citiesOptions, setCitiesOptions] = useState<Options[]>([]);
-  const [steps, setSteps] = useState<number>(1);
+  const [steps, setSteps] = useState<number>(2);
+  const [isValidated, setIsValidated] = useState(false);
   const [state, setState] = useState<Builder>({
     participantId: null,
     identification: '',
@@ -98,6 +99,49 @@ export const Home = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    validateForm();
+    // eslint-disable-next-line
+  }, [state]);
+
+  const validateForm = () => {
+    const validationProps = {
+      participantId: false,
+      identification: false,
+      names: false,
+      lastNames: false,
+      phoneNumber: false,
+      citieId: false,
+    };
+    if (state.participantId !== null) {
+      validationProps.participantId = true;
+    }
+    if (state.citieId !== null) {
+      validationProps.citieId = true;
+    }
+    if (state.identification?.length === 10) {
+      validationProps.identification = true;
+    }
+    if (state.names.trim() !== '') {
+      validationProps.names = true;
+    }
+    if (state.lastNames.trim() !== '') {
+      validationProps.lastNames = true;
+    }
+    if (state.phoneNumber.trim() !== '') {
+      validationProps.phoneNumber = true;
+    }
+
+    setIsValidated(
+      validationProps.participantId &&
+        validationProps.identification &&
+        validationProps.names &&
+        validationProps.lastNames &&
+        validationProps.phoneNumber &&
+        validationProps.citieId
+    );
+  };
+
   const handleChange = ({ target }: EventType) => {
     setState({
       ...state,
@@ -106,27 +150,31 @@ export const Home = () => {
   };
 
   const handleSubmit = async () => {
-    const { status } = await axios.post(
-      `${config.backend.url}/builders`,
-      state
-    );
-    if (status === 201) {
-      Swal.fire(
-        '¡Genial!',
-        'Has registrado exitosamente a tu Socio Maestro',
-        'success'
-      ).then(() => {
-        setSteps(1);
-        setState({
-          participantId: null,
-          identification: '',
-          names: '',
-          lastNames: '',
-          phoneNumber: '',
-          email: '',
-          citieId: null,
+    if (isValidated) {
+      const { status } = await axios.post(
+        `${config.backend.url}/builders`,
+        state
+      );
+      if (status === 201) {
+        Swal.fire(
+          '¡Genial!',
+          'Has registrado exitosamente a tu Socio Maestro',
+          'success'
+        ).then(() => {
+          setSteps(1);
+          setState({
+            participantId: null,
+            identification: '',
+            names: '',
+            lastNames: '',
+            phoneNumber: '',
+            email: '',
+            citieId: null,
+          });
         });
-      });
+      }
+    } else {
+      console.log('no se guarda nada');
     }
   };
 
@@ -169,9 +217,10 @@ export const Home = () => {
           <div className={classes.cardBody}>
             <Input
               label="Cédula"
-              type={'number'}
+              type={'tel'}
               name={'identification'}
               onChange={handleChange}
+              maxLength={10}
             />
             <Input
               label="Nombre"
@@ -190,6 +239,7 @@ export const Home = () => {
               type={'number'}
               name={'phoneNumber'}
               onChange={handleChange}
+              maxLength={10}
             />
             <Input
               label="Correo (Opcional)"
@@ -205,7 +255,7 @@ export const Home = () => {
             />
             <Button
               variant="contained"
-              color="primary"
+              color={isValidated ? 'primary' : 'secondary'}
               className={classes.cardButton}
               onClick={handleSubmit}
             >
